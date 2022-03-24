@@ -65,10 +65,12 @@
 }
 
 .mint-button {
-  background: -webkit-linear-gradient(left, #4e44ce, #35aee2);
+  background: -webkit-linear-gradient(left, #e2c62a, #0a2be9);
   background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
   margin-left: 10px;
+  width: 30%;
+  margin: auto;
 }
 
 .footer-container {
