@@ -25,6 +25,7 @@ const CandyMachine = ({ walletAddress }) => {
   const [candyMachine, setCandyMachine] = useState(null);
 
   const getCandyMachineCreator = async (candyMachine) => {
+    console.log("getCandyMachineCreateor")
     const candyMachineID = new PublicKey(candyMachine);
     return await web3.PublicKey.findProgramAddress(
         [Buffer.from('candy_machine'), candyMachineID.toBuffer()],
@@ -33,6 +34,7 @@ const CandyMachine = ({ walletAddress }) => {
   };
 
   const getMetadata = async (mint) => {
+    console.log("getMeatadata")
     return (
       await PublicKey.findProgramAddress(
         [
@@ -46,6 +48,7 @@ const CandyMachine = ({ walletAddress }) => {
   };
 
   const getMasterEdition = async (mint) => {
+    console.log("getMasterEdition")
     return (
       await PublicKey.findProgramAddress(
         [
@@ -90,6 +93,8 @@ const CandyMachine = ({ walletAddress }) => {
   };
 
   const mintToken = async () => {
+
+    console.log("minToken")
     const mint = web3.Keypair.generate();
 
     const userTokenAccountAddress = (
@@ -301,6 +306,7 @@ const CandyMachine = ({ walletAddress }) => {
   };
 
   const getProvider = () => {
+    console.log("getProvider")
     const rpcHost = process.env.REACT_APP_SOLANA_RPC_HOST;
     // Create a new connection object
     const connection = new Connection(rpcHost);
@@ -316,6 +322,8 @@ const CandyMachine = ({ walletAddress }) => {
   };
 
   const getCandyMachineState = async () => {
+
+    console.log("getCandyMachineState")
     const provider = getProvider();
     
     // Get metadata about your deployed candy machine program
@@ -325,9 +333,11 @@ const CandyMachine = ({ walletAddress }) => {
     const program = new Program(idl, candyMachineProgram, provider);
   
     // Fetch the metadata from your candy machine
+    console.log("fetch metadat start")
     const candyMachine = await program.account.candyMachine.fetch(
       process.env.REACT_APP_CANDY_MACHINE_ID
     );
+    console.log('fetch metadat end')
     console.log("candyMachine = ", candyMachine)
     
     // Parse out all our metadata and log it out
