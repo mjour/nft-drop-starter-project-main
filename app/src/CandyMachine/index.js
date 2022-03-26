@@ -308,8 +308,10 @@ const CandyMachine = ({ walletAddress }) => {
   const getProvider = () => {
     console.log("getProvider")
     const rpcHost = process.env.REACT_APP_SOLANA_RPC_HOST;
+    console.log("rpcHost = ", rpcHost)
     // Create a new connection object
     const connection = new Connection(rpcHost);
+    console.log("connectio = ", connection)
     
     // Create a new Solana provider object
     const provider = new Provider(
@@ -326,11 +328,16 @@ const CandyMachine = ({ walletAddress }) => {
     console.log("getCandyMachineState")
     const provider = getProvider();
     
+    console.log("provider = ", provider)
     // Get metadata about your deployed candy machine program
     const idl = await Program.fetchIdl(candyMachineProgram, provider);
+
+    console.log("idl = ",idl)
   
     // Create a program that you can call
     const program = new Program(idl, candyMachineProgram, provider);
+
+    console.log("program = ", program)
   
     // Fetch the metadata from your candy machine
     console.log("fetch metadat start")
