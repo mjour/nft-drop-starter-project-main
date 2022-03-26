@@ -25,8 +25,9 @@ const App = () => {
         /*
         * Set the user's publicKey in state to be used later!
         */
+       console.log('Set Wallet Address Start')
         setWalletAddress(response.publicKey.toString());
-        console.log('---------------')
+        console.log('Set Wallet Address End')
       } else {
         alert('Solana object not found! Get a Phantom Wallet 👻');
       }
