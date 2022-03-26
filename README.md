@@ -18,6 +18,12 @@ To verfify NFT:
 ```bash
 ts-node ~/metaplex/js/packages/cli/src/candy-machine-v2-cli.ts verify_upload -e devnet -k ~/.config/solana/devnet.json
 ```
+
+To update
+```bash
+ts-node ~/metaplex/js/packages/cli/src/candy-machine-v2-cli.ts update_candy_machine -e devnet -k ~/.config/solana/devnet.json -cp config.json
+```
+
 To confirm this project, click follow link:
 
 https://nft-drop-starter-project-markjames.vercel.app/
