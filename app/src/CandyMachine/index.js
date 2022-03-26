@@ -328,6 +328,7 @@ const CandyMachine = ({ walletAddress }) => {
     const candyMachine = await program.account.candyMachine.fetch(
       process.env.REACT_APP_CANDY_MACHINE_ID
     );
+    console.log("candyMachine = ", candyMachine)
     
     // Parse out all our metadata and log it out
     const itemsAvailable = candyMachine.data.itemsAvailable.toNumber();
