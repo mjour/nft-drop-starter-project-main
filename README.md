@@ -10,7 +10,7 @@ To get started with this course, clone this repo and follow these commands:
 To upload NFT, execute follow command:
 
 ```bash
-ts-node ~/metaplex/js/packages/cli/src/candy-machine-v2-cli.ts verify_upload -e devnet -k ~/.config/solana/devnet.json
+ts-node ~/metaplex/js/packages/cli/src/candy-machine-v2-cli.ts upload -e devnet -k ~/.config/solana/devnet.json -cp config.json ./assets
 ```
 
 To verfify NFT:
