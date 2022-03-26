@@ -25,9 +25,7 @@ const App = () => {
         /*
         * Set the user's publicKey in state to be used later!
         */
-       console.log('Set Wallet Address Start')
         setWalletAddress(response.publicKey.toString());
-        console.log('Set Wallet Address End')
       } else {
         alert('Solana object not found! Get a Phantom Wallet 👻');
       }
@@ -43,7 +41,9 @@ const App = () => {
     const { solana } = window;
 
     if (solana) {
+      console.log("connect start")
       const response = await solana.connect();
+      console.log("connect end")
       console.log('Connected with Public Key:', response.publicKey.toString());
       setWalletAddress(response.publicKey.toString());
     }
