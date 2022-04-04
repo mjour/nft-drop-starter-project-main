@@ -2,7 +2,7 @@ import {
     clusterApiUrl, Connection, PublicKey,
 } from '@solana/web3.js';
 
-import type { AccountInfo, ParsedAccountData } from '@solana/web3.js';
+import type { ParsedAccountData } from '@solana/web3.js';
 import { Metadata, METADATA_SCHEMA } from './schema';
 
 import { deserializeUnchecked } from 'borsh';
@@ -64,23 +64,19 @@ export async function getNFTMetadata(mintPubKey: PublicKey) {
         ],
     });
 
-    console.log("mintData", mintData);
-
 
     const data = decodeMetadata(mintData[0].account.data);
     console.log("TEHDATA", data);
 
     await connection.getParsedAccountInfo(mintPubKey).then(encodedAccount => {
-        if (encodedAccount !=  null && encodedAccount.value != null) {
+        if (encodedAccount.value != null) {
             let mintData = encodedAccount.value.data as ParsedAccountData;
             let mintAuthority = new PublicKey(mintData?.parsed.info.mintAuthority);
-    
-            console.log("found NFT mint authority:", mintAuthority.toBase58());
     
             connection.getParsedAccountInfo(mintAuthority).then(encodedMint => {
                 try {
                     console.log("encodedMint", encodedMint);
-                    if (encodedMint.value != null ) {
+                    if (encodedMint.value != null) {
                         const mintData = encodedMint.value.data as Buffer;
                         const decodedData = decodeMetadata(mintData);
         
@@ -91,7 +87,6 @@ export async function getNFTMetadata(mintPubKey: PublicKey) {
                 }
             });
         }
-
     });
 }
 

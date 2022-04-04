@@ -65,9 +65,9 @@ const CandyMachine = ({ walletAddress }) => {
     )[0];
   };
 
-  const getMints = async () => {
+  const getMints = async (candyMachine) => {
     let mints = [];
-    if (candyMachine) {
+    if (candyMachine && candyMachine.state) {
       let accounts  = await getTokenAccountsForWallet(walletAddress.publicKey).then(sortByTokenType);
   
       console.log("accounts = ", accounts)
@@ -415,11 +415,10 @@ const CandyMachine = ({ walletAddress }) => {
 
   useEffect(()=> {
     getCandyMachineState();
-    getMints();
   }, []); 
   
   useEffect(()=> {
-    getMints();
+    getMints(candyMachine);
   }, [candyMachine]); 
 
   const renderDropTimer = () => {

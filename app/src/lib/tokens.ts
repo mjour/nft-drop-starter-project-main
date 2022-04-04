@@ -63,7 +63,7 @@ async function fetchAccountData(
 /** Filter only NFT Token accounts */
 function tokenType(account: { decimals: number; supply: number }): SPLTokenType {
 	// should have a mint with a supply of 1, decimals 0.
-	if (account.decimals === 0 && account.supply === 1) {
+	if (account.decimals == 0 && account.supply == 1) {
 		return SPLTokenType.NonFungibleToken;
 	} else {
 		return SPLTokenType.FungibleToken;
