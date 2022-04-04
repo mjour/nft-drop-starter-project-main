@@ -14,6 +14,8 @@ import {
   CIVIC
 } from './helpers';
 import CountdownTimer from '../CountdownTimer';
+import { fetchNFTMetadata } from "../lib/nft";
+import { getTokenAccountsForWallet, sortByTokenType } from '../lib/tokens';
 
 const { SystemProgram } = web3;
 const opts = {
@@ -23,6 +25,10 @@ const opts = {
 const CandyMachine = ({ walletAddress }) => {
 
   const [candyMachine, setCandyMachine] = useState(null);
+
+  const [isLoadingMints, setIsLoadingMints] = useState(true);
+
+  const [mints,setMints] = useState([]);
 
   const getCandyMachineCreator = async (candyMachine) => {
     const candyMachineID = new PublicKey(candyMachine);
@@ -58,6 +64,25 @@ const CandyMachine = ({ walletAddress }) => {
       )
     )[0];
   };
+
+  const getMints = async () => {
+    let mints = [];
+    if (candyMachine) {
+      let accounts  = await getTokenAccountsForWallet(walletAddress.publicKey).then(sortByTokenType);
+  
+      console.log("accounts = ", accounts)
+      if (accounts && accounts.nfts) {
+        for (let i = 0; i < accounts.nfts.length; i++) {
+          let account = accounts.nfts[i];
+          let mint_item = await fetchNFTMetadata(account.mint);
+          mints.push(mint_item)
+        }
+        console.log("mints = ", mints)
+        setMints(mints);
+        setIsLoadingMints(false);
+      }
+    }
+  }
   
   const createAssociatedTokenAccountInstruction = (
     associatedTokenAddress,
@@ -374,6 +399,8 @@ const CandyMachine = ({ walletAddress }) => {
         price: candyMachine.data.price,
       },
     });
+
+    console.log("candymachine = ", candyMachine)
   
     console.log({
       itemsAvailable,
@@ -383,11 +410,17 @@ const CandyMachine = ({ walletAddress }) => {
       goLiveDateTimeString,
       presale,
     });
+
   };
 
   useEffect(()=> {
     getCandyMachineState();
+    getMints();
   }, []); 
+  
+  useEffect(()=> {
+    getMints();
+  }, [candyMachine]); 
 
   const renderDropTimer = () => {
     // Get the current date and dropDate in a JavaScript Date object
@@ -405,6 +438,25 @@ const CandyMachine = ({ walletAddress }) => {
     return <p>{`Drop Date: ${candyMachine.state.goLiveDateTimeString}`}</p>;
   };
 
+  const renderMintedItems = () => {
+    if (mints.length > 0) {
+      return (
+        <div className="nft-list">
+          {/* eslint-disable-next-line array-callback-return */}
+          {mints.map((nft, index)=>{
+            if (nft !== undefined && nft.image !== undefined) {
+              return (
+                <div key={index} className="nft-item">
+                  <img src={nft.image} alt="" />
+                </div>
+              )
+            }
+          })}
+        </div>
+      )
+    }
+  }
+
   return (
     candyMachine && candyMachine.state && (
       <div className="machine-container">
@@ -421,6 +473,8 @@ const CandyMachine = ({ walletAddress }) => {
               Mint NFT
             </button>
           )}
+          {mints.length > 0 && renderMintedItems()}
+          {isLoadingMints && <p>LOADING MINTS...</p>}
       </div>
     )
   );

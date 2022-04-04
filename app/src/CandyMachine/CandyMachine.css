@@ -31,3 +31,17 @@
   border-radius: 10px;
   object-fit: cover;
 }
+.nft-list {
+  display: flex;
+  overflow-x: auto;
+  
+}
+.nft-item {
+  border: solid 1px darkgray;
+  margin-right: 10px;
+}
+
+.nft-item img {
+  width: 300px;
+  height: 300px;
+}
