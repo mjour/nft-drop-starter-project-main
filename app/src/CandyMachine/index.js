@@ -440,17 +440,20 @@ const CandyMachine = ({ walletAddress }) => {
   const renderMintedItems = () => {
     if (mints.length > 0) {
       return (
-        <div className="nft-list">
-          {/* eslint-disable-next-line array-callback-return */}
-          {mints.map((nft, index)=>{
-            if (nft !== undefined && nft.image !== undefined) {
-              return (
-                <div key={index} className="nft-item">
-                  <img src={nft.image} alt="" />
-                </div>
-              )
-            }
-          })}
+        <div className="text-center">
+          <div className="mint-item">🚨 Minted Items 🚨</div>
+          <div className="nft-list">
+            {/* eslint-disable-next-line array-callback-return */}
+            {mints.map((nft, index)=>{
+              if (nft !== undefined && nft.image !== undefined) {
+                return (
+                  <div key={index} className="nft-item">
+                    <img src={nft.image} alt="" />
+                  </div>
+                )
+              }
+            })}
+          </div>
         </div>
       )
     }
