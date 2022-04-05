@@ -441,7 +441,7 @@ const CandyMachine = ({ walletAddress }) => {
     if (mints.length > 0) {
       return (
         <div className="text-center">
-          <div className="mint-item">🚨 Minted Items 🚨</div>
+          <div className="mint-item">✨ Minted Items ✨</div>
           <div className="nft-list">
             {/* eslint-disable-next-line array-callback-return */}
             {mints.map((nft, index)=>{
