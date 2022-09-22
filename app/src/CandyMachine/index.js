@@ -72,16 +72,19 @@ const CandyMachine = ({ walletAddress }) => {
   
       console.log("accounts = ", accounts)
       if (accounts && accounts.nfts) {
-        for (let i = 0; i < accounts.nfts.length; i++) {
-          let account = accounts.nfts[i];
-          let mint_item = await fetchNFTMetadata(account.mint);
-          mints.push(mint_item)
-        }
-        console.log("mints = ", mints)
+        const mints = await getAllMints(accounts.nfts);
         setMints(mints);
         setIsLoadingMints(false);
       }
     }
+  }
+
+  const getAllMints = async (accounts) => {
+    return await Promise.all(
+      accounts.map(async(account)=>{
+        return await fetchNFTMetadata(account.mint)
+      })
+    )
   }
   
   const createAssociatedTokenAccountInstruction = (
@@ -322,6 +325,7 @@ const CandyMachine = ({ walletAddress }) => {
     } catch (e) {
       console.log(e);
     }
+    getCandyMachineState();
     return [];
   };
 
@@ -341,18 +345,22 @@ const CandyMachine = ({ walletAddress }) => {
   };
 
   const getCandyMachineState = async () => {
+    console.log("111111111")
     const provider = getProvider();
-    
+    console.log("provier ==== ", provider);
     // Get metadata about your deployed candy machine program
     const idl = await Program.fetchIdl(candyMachineProgram, provider);
+    console.log("idl ==== ", idl);
 
     // Create a program that you can call
     const program = new Program(idl, candyMachineProgram, provider);
+    console.log("program ==== ", program);
 
     // Fetch the metadata from your candy machine
     const candyMachine = await program.account.candyMachine.fetch(
       process.env.REACT_APP_CANDY_MACHINE_ID
     );
+    console.log("candyMachine ==== ", candyMachine);
     
     // Parse out all our metadata and log it out
     const itemsAvailable = candyMachine.data.itemsAvailable.toNumber();
